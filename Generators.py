@@ -44,10 +44,34 @@ def TriangleNumbers():
         num += i
         yield num
 
+def Collatz(n):
+    '''
+    Returns a Collatz sequence starting at n
+    '''
+    if n > 0:
+        while True:
+            yield n
+            if n == 1:
+                break
+            elif n % 2 == 0:
+                n = n / 2
+            else:
+                n = 3*n + 1
+
 if __name__ == '__main__':
     import unittest
 
     class Tests(unittest.TestCase):
+        def test_Collatz(self):
+            cases = [{'n': 13, 'answer': [13, 40, 20, 10, 5, 16, 8, 4, 2, 1]},
+                     {'n': 0, 'answer': []}]
+            for case in cases:
+                n = case['n']
+                expected = case['answer']
+                with self.subTest(n=n, expected=expected):
+                    answer = [x for x in Collatz(n)]
+                    self.assertEqual(expected, answer)
+
         def test_Fibonacci(self):
             cases = [{'index': 0, 'startWithRepeatingOnes': False, 'answer': 1},
                      {'index': 1, 'startWithRepeatingOnes': False, 'answer': 2},
